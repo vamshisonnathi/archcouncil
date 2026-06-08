@@ -1,0 +1,15 @@
+security_agent:
+  agent_id: "PLACEHOLDER_UNTIL_JUNE12"
+  api_key: "PLACEHOLDER_UNTIL_JUNE12"
+
+scalability_agent:
+  agent_id: "PLACEHOLDER_UNTIL_JUNE12"
+  api_key: "PLACEHOLDER_UNTIL_JUNE12"
+
+cost_agent:
+  agent_id: "PLACEHOLDER_UNTIL_JUNE12"
+  api_key: "PLACEHOLDER_UNTIL_JUNE12"
+
+coordinator_agent:
+  agent_id: "PLACEHOLDER_UNTIL_JUNE12"
+  api_key: "PLACEHOLDER_UNTIL_JUNE12"

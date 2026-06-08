@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  security-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python agents/security/agent.py
+    env_file: .env
+    volumes:
+      - ./agent_config.yaml:/app/agent_config.yaml
+      - ./prompts:/app/prompts
+    restart: unless-stopped
+
+  scalability-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python agents/scalability/agent.py
+    env_file: .env
+    volumes:
+      - ./agent_config.yaml:/app/agent_config.yaml
+      - ./prompts:/app/prompts
+    restart: unless-stopped
+
+  cost-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python agents/cost/agent.py
+    env_file: .env
+    volumes:
+      - ./agent_config.yaml:/app/agent_config.yaml
+      - ./prompts:/app/prompts
+    restart: unless-stopped
+
+  coordinator-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python agents/coordinator/agent.py
+    env_file: .env
+    volumes:
+      - ./agent_config.yaml:/app/agent_config.yaml
+      - ./prompts:/app/prompts
+    restart: unless-stopped
+
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: streamlit run ui/app.py --server.port 8501
+    ports:
+      - "8501:8501"
+    env_file: .env
+    restart: unless-stopped
