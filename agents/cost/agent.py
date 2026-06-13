@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from thenvoi import Agent
 from thenvoi.adapters import AnthropicAdapter
 from thenvoi.config import load_agent_config
+from thenvoi.core.types import AdapterFeatures, Emit
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -19,19 +20,23 @@ async def main():
     agent_id, api_key = load_agent_config("cost_agent")
 
     adapter = AnthropicAdapter(
-        model="claude-haiku-4-5",
+        model="claude-haiku-4-5-20251001",
         system_prompt=SYSTEM_PROMPT,
         max_tokens=2048,
-        enable_execution_reporting=True,
+        features=AdapterFeatures(emit=[Emit.EXECUTION]),
     )
 
-    agent = Agent.create(
+    create_kwargs = dict(
         adapter=adapter,
         agent_id=agent_id,
         api_key=api_key,
-        ws_url=os.getenv("THENVOI_WS_URL"),
-        rest_url=os.getenv("THENVOI_REST_URL"),
     )
+    if os.getenv("THENVOI_WS_URL"):
+        create_kwargs["ws_url"] = os.getenv("THENVOI_WS_URL")
+    if os.getenv("THENVOI_REST_URL"):
+        create_kwargs["rest_url"] = os.getenv("THENVOI_REST_URL")
+
+    agent = Agent.create(**create_kwargs)
 
     logger.info("Cost Agent running...")
     await agent.run()
